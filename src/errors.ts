@@ -12,7 +12,7 @@ export type BaseClientErrorParams = {
 }
 
 export type BaseClientValidationErrorParams = BaseClientErrorParams & {
-    type: 'request' | 'response';
+    type: 'request' | 'response' | 'query';
     validation_error_message: string;
 }
 
@@ -40,7 +40,7 @@ export class BaseClientError extends Error{
 
 export class BaseClientValidationError extends BaseClientError{
 
-    public readonly type: 'request' | 'response';
+    public readonly type: 'request' | 'response' | 'query';
 
     /**
      * @param {BaseClientValidationErrorParams} params

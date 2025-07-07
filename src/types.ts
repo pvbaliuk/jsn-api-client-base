@@ -26,6 +26,7 @@ export type BaseClientConfig = {
 
 export type RequestConfig<
     I extends z.ZodTypeAny|undefined,
+    Q extends z.ZodTypeAny|undefined,
     O extends z.ZodTypeAny|undefined
 > = {
     method: Method;
@@ -33,8 +34,10 @@ export type RequestConfig<
     query?: any;
     data?: any;
     $input?: I;
+    $query?: Q;
     $output?: O;
 };
 
-export type InferRequestType<T extends RequestConfig<any, any>> = T['$input'] extends undefined ? any : z.output<T['$input']>;
-export type InferResponseType<T extends RequestConfig<any, any>> = T['$output'] extends undefined ? any : z.output<T['$output']>;
+export type InferRequestType<T extends RequestConfig<any, any, any>> = T['$input'] extends undefined ? any : z.output<T['$input']>;
+export type InferQueryType<T extends RequestConfig<any, any, any>> = T['$query'] extends undefined ? any : z.input<T['$query']>;
+export type InferResponseType<T extends RequestConfig<any, any, any>> = T['$output'] extends undefined ? any : z.output<T['$output']>;

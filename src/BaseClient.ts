@@ -91,12 +91,29 @@ export class BaseClient{
     }
 
     /**
-     * @template {RequestConfig<any, any>} T
+     * @template {RequestConfig<any, any, any>} T
      * @param {T} config
      * @returns {Promise<InferResponseType<T>>}
      */
-    public async request<T extends RequestConfig<any, any>>(config: T): Promise<InferResponseType<T>>{
+    public async request<T extends RequestConfig<any, any, any>>(config: T): Promise<InferResponseType<T>>{
         let response: AxiosResponse|undefined = undefined;
+        const previewEndpointURI = this.appendQueryString(config.path, config.query),
+            previewRequestURL = this.getFullRequestURL(previewEndpointURI);
+
+        // Validate request query params
+        if(!!config.$query){
+            try{
+                config.query = this.validateData(config.data, config.$query);
+            }catch(e){
+                throw new BaseClientValidationError({
+                    type: 'query',
+                    url: previewRequestURL,
+                    method: config.method,
+                    validation_error_message: z.prettifyError(e as z.ZodError)
+                });
+            }
+        }
+
         const endpointURI = this.appendQueryString(config.path, config.query),
             requestURL = this.getFullRequestURL(endpointURI);
 
