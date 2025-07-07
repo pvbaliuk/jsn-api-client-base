@@ -135,6 +135,8 @@ export class BaseClient{
             response = await this.http.request({
                 url: endpointURI,
                 method: config.method,
+                headers: config.headers,
+                signal: config.signal,
                 data: config.data
             });
         }catch(e){

@@ -1,4 +1,4 @@
-import {Method, responseEncoding, ResponseType} from 'axios';
+import {GenericAbortSignal, Method, responseEncoding, ResponseType} from 'axios';
 import {IAuthorizationProvider} from './authorization';
 import {z} from 'zod/v4';
 
@@ -32,7 +32,9 @@ export type RequestConfig<
     method: Method;
     path: string;
     query?: any;
+    headers?: Record<string, string>;
     data?: any;
+    signal?: GenericAbortSignal;
     $input?: I;
     $query?: Q;
     $output?: O;
