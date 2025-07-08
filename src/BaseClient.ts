@@ -103,7 +103,7 @@ export class BaseClient{
         // Validate request query params
         if(!!config.$query){
             try{
-                config.query = this.validateData(config.data, config.$query);
+                config.query = this.validateData(config.query, config.$query);
             }catch(e){
                 throw new BaseClientValidationError({
                     type: 'query',
