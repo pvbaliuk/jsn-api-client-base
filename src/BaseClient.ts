@@ -193,10 +193,12 @@ export class BaseClient{
             endpointURI += '&';
         }
 
-        endpointURI += QueryString.stringify(query, {
-            arrayFormat: this.defaultConfig.paramsArrayFormat ?? 'brackets',
-            serializeDate: this.defaultConfig.paramsDateSerializer
-        });
+        endpointURI += this.defaultConfig?.paramsSerializer && typeof this.defaultConfig.paramsSerializer === 'function'
+            ? this.defaultConfig.paramsSerializer(query)
+            : QueryString.stringify(query, {
+                arrayFormat: this.defaultConfig.paramsArrayFormat ?? 'brackets',
+                serializeDate: this.defaultConfig.paramsDateSerializer
+            });
 
         return endpointURI;
     }

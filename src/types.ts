@@ -20,9 +20,15 @@ export type BaseClientConfig = {
     timeout?: number;
     timeoutErrorMessage?: string;
     authBypassRules?: AuthBypassRule[] | true;
-    paramsArrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma',
+} & ({
+    paramsArrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma';
     paramsDateSerializer?: (date: Date) => string;
-}
+    paramsSerializer?: never;
+} | {
+    paramsSerializer?: (obj: any) => string;
+    paramsArrayFormat?: never;
+    paramsDateSerializer?: never;
+});
 
 export type RequestConfig<
     I extends z.ZodTypeAny|undefined,
